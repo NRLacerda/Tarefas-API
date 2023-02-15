@@ -20,7 +20,7 @@ namespace SistemaDeTarefas.Repositories
 
         public async Task<UserModel> FetchUser(int id)
         {
-            return await dbcontex.Users.FirstOrDefaultAsync(x=>x.Id == id);
+            return await dbcontex.Users.FirstOrDefaultAsync(x => x.Id == id);
         }
         public async Task<UserModel> AddUser(UserModel user)
         {
