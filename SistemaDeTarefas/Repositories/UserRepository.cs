@@ -25,7 +25,7 @@ namespace SistemaDeTarefas.Repositories
         public async Task<UserModel> AddUser(UserModel user)
         {
             await dbcontex.Users.AddAsync(user);
-            dbcontex.SaveChanges();
+            await dbcontex.SaveChangesAsync();
 
             return user; 
         }
@@ -43,7 +43,7 @@ namespace SistemaDeTarefas.Repositories
                 actualUser.Email = user.Email;
                 actualUser.EmailConfirmed = user.EmailConfirmed;
                 dbcontex.Update(actualUser);
-                dbcontex.SaveChanges();
+                await dbcontex.SaveChangesAsync();
                 return actualUser;
             }
         }
@@ -58,7 +58,7 @@ namespace SistemaDeTarefas.Repositories
             else
             {
                 dbcontex.Remove(actualUser);
-                dbcontex.SaveChanges();
+                await dbcontex.SaveChangesAsync();
                 return true;
             }
         }
