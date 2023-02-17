@@ -6,9 +6,10 @@ namespace SistemaDeTarefas.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class GetAllUsers : ControllerBase
     {
         [HttpGet]
         public ActionResult<List<UserModel>> FetchUsers() { return Ok(); }
     }
+
 }

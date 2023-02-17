@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SistemaDeTarefas.Data;
 using SistemaDeTarefas.Repositories;
 using SistemaDeTarefas.Repositories.Interfaces;
+using System.Diagnostics.Tracing;
 
 namespace SistemaDeTarefas
 {
@@ -23,7 +24,7 @@ namespace SistemaDeTarefas
             builder.Services.AddScoped<IUserRepository, UserRepository>();
 
             var app = builder.Build();
-
+            
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
