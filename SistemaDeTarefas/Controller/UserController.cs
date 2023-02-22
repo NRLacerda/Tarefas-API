@@ -11,9 +11,11 @@ namespace SistemaDeTarefas.Controller
     public class UserController : ControllerBase
     {
         //Router 
+
         private readonly IUserRepository _userRepository;
         public UserController(IUserRepository userRepository)
         {
+            // Injeção de dependência, igual no Angular
             _userRepository = userRepository;
         }
 
@@ -30,7 +32,25 @@ namespace SistemaDeTarefas.Controller
             UserModel user = await _userRepository.GetUser(id);
             return Ok(user);
         }
-        //[HttpPost]
+        [HttpPost]
+        public async Task<ActionResult<UserModel>> InsertUser([FromBody] UserModel usermodel)
+        {
+            UserModel usuario = await _userRepository.AddUser(usermodel);
+            return Ok(usuario);
+        }
+        [HttpPut("{id}")]
+        public async Task<ActionResult<UserModel>> UpdateUser([FromBody] UserModel usermodel, int id)
+        {
+            usermodel.id= id;
+            UserModel usuario = await _userRepository.UpdateUser(usermodel, id);
+            return Ok(usuario);
+        }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<UserModel>> DeleteUser([FromBody] int id)
+        {
+            bool deleted = await _userRepository.DeleteUser(id);
+            return Ok(deleted);
+        }
     }
 
 }
