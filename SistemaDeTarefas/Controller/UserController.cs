@@ -10,6 +10,7 @@ namespace SistemaDeTarefas.Controller
     [ApiController]
     public class UserController : ControllerBase
     {
+        //Router 
         private readonly IUserRepository _userRepository;
         public UserController(IUserRepository userRepository)
         {
@@ -17,13 +18,14 @@ namespace SistemaDeTarefas.Controller
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<UserModel>>> FetchAllUsers() 
+        public async Task<ActionResult<List<UserModel>>> GetAllUsers() 
         {
             List<UserModel> users = await _userRepository.FetchAllUsers();
             return Ok(users);
         }
+        
         [HttpGet("[id]")]
-        public async Task<ActionResult<List<UserModel>>> FetchUserById(int id)
+        public async Task<ActionResult<UserModel>> FetchUserById(int id)
         {
             UserModel user = await _userRepository.FetchUser(id);
             return Ok(user);
