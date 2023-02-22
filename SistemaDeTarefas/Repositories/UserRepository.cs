@@ -8,7 +8,7 @@ namespace SistemaDeTarefas.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly TaskManagerDBContext dbcontex;
+        private readonly TaskManagerDBContext dbcontex; 
         public UserRepository(TaskManagerDBContext taskmanagersysDBContext) 
         { 
          dbcontex= taskmanagersysDBContext;
