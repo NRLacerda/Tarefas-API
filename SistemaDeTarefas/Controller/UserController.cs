@@ -22,6 +22,13 @@ namespace SistemaDeTarefas.Controller
             List<UserModel> users = await _userRepository.FetchAllUsers();
             return Ok(users);
         }
+        [HttpGet("[id]")]
+        public async Task<ActionResult<List<UserModel>>> FetchUserById(int id)
+        {
+            UserModel user = await _userRepository.FetchUser(id);
+            return Ok(user);
+        }
+        //[HttpPost]
     }
 
 }
