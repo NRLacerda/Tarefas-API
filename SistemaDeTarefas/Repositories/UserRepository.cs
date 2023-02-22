@@ -13,14 +13,14 @@ namespace SistemaDeTarefas.Repositories
         { 
          dbcontex= taskmanagersysDBContext;
         }
-        public async Task<List<UserModel>> FetchAllUsers()
+        public async Task<List<UserModel>> GetAllUsers()
         {
             return await dbcontex.Users.ToListAsync();
         }
 
-        public async Task<UserModel> FetchUser(int id)
+        public async Task<UserModel> GetUser(int id)
         {
-            return await dbcontex.Users.FirstOrDefaultAsync(x => x.Id == id);
+            return await dbcontex.Users.FirstOrDefaultAsync(x => x.id == id);
         }
         public async Task<UserModel> AddUser(UserModel user)
         {
@@ -31,7 +31,7 @@ namespace SistemaDeTarefas.Repositories
         }
         public async Task<UserModel> UpdateUser(UserModel user, int id)
         {
-            UserModel actualUser = await FetchUser(id);
+            UserModel actualUser = await GetUser(id);
             if(actualUser == null) 
             {
                 throw new Exception($"Usuario para o id {id} não encontrado.");
@@ -50,7 +50,7 @@ namespace SistemaDeTarefas.Repositories
 
         public async Task<bool> DeleteUser(int id)
         {
-            UserModel actualUser = await FetchUser(id);
+            UserModel actualUser = await GetUser(id);
             if (actualUser == null)
             {
                 throw new Exception($"Usuario para o id {id} não encontrado.");

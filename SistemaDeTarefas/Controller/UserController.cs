@@ -20,14 +20,14 @@ namespace SistemaDeTarefas.Controller
         [HttpGet]
         public async Task<ActionResult<List<UserModel>>> GetAllUsers() 
         {
-            List<UserModel> users = await _userRepository.FetchAllUsers();
+            List<UserModel> users = await _userRepository.GetAllUsers();
             return Ok(users);
         }
         
-        [HttpGet("[id]")]
-        public async Task<ActionResult<UserModel>> FetchUserById(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserModel>> GetUserById(int id)
         {
-            UserModel user = await _userRepository.FetchUser(id);
+            UserModel user = await _userRepository.GetUser(id);
             return Ok(user);
         }
         //[HttpPost]

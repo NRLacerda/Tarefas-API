@@ -8,7 +8,7 @@ namespace SistemaDeTarefas.Data.Map
     {
         public void Configure(EntityTypeBuilder<UserModel> builder)
         {
-            builder.HasKey(x => x.Id);
+            builder.HasKey(x => x.id);
             builder.Property(x=>x.Name).IsRequired().HasMaxLength(255);
             builder.Property(x => x.Email).IsRequired().HasMaxLength(255);
         }
