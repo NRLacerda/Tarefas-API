@@ -1,8 +1,11 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using SistemaDeTarefas.Data;
 using SistemaDeTarefas.Repositories;
 using SistemaDeTarefas.Repositories.Interfaces;
 using System.Diagnostics.Tracing;
+using System.Security.Claims;
 
 namespace SistemaDeTarefas
 {
@@ -14,6 +17,8 @@ namespace SistemaDeTarefas
 
             // Add services to the container.
 
+
+
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -24,7 +29,7 @@ namespace SistemaDeTarefas
             builder.Services.AddScoped<IUserRepository, UserRepository>();
 
             var app = builder.Build();
-            
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -33,7 +38,8 @@ namespace SistemaDeTarefas
             }
 
             app.UseHttpsRedirection();
-
+            app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
