@@ -10,6 +10,5 @@ namespace SistemaDeTarefas.Enums
         Working = 1,
         [Description("Work done")]
         Done =2,
-
     }
 }
