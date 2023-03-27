@@ -39,7 +39,7 @@ namespace SistemaDeTarefas.Controller
             }
             else
             {
-                //string token = CreateToken(user);
+                string token = CreateToken(user);
                 return Ok();
             }
 
@@ -68,14 +68,14 @@ namespace SistemaDeTarefas.Controller
             }
         }
 
-        /*private string CreateToken(User user)
+        private string CreateToken(User user)
         {
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Username)
             };
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes());
-        }*/
+        }
 
     }
 }
