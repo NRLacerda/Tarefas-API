@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SistemaDeTarefas.Models;
 using SistemaDeTarefas.Repositories;
@@ -20,6 +21,7 @@ namespace SistemaDeTarefas.Controller
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<List<User>>> GetAllUsers() 
         {
             List<User> users = await _userRepository.GetAllUsers();
@@ -27,6 +29,7 @@ namespace SistemaDeTarefas.Controller
         }
         
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<User>> InsertUser([FromBody] User usermodel)
         {
             User usuario = await _userRepository.AddUser(usermodel);
