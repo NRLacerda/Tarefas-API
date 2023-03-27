@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using SistemaDeTarefas.Models;
@@ -27,6 +28,7 @@ namespace SistemaDeTarefas.Controller
         {
             // esse request.Password é a senha passada no header da requisição
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            // coloca as info passada pelo metodo dentro do usuário
             user.PasswordHash= passwordHash;
             user.PasswordSalt= passwordSalt;
             user.Username = request.Username;
@@ -49,7 +51,16 @@ namespace SistemaDeTarefas.Controller
                 string token = CreateToken(user);
                 return Ok(token);
             }
+        }
 
+
+        [HttpGet("Users")]
+        [Authorize]
+        public async Task<ActionResult<List<User>>> GetAllUsers()
+        {
+            // List<User> users = await _userRepository.GetAllUsers();
+
+            return Ok(user.Username/*users*/);
         }
         private void CreatePasswordHash (string password, out byte[] passwordHash, out byte[] PasswordSalt)
         {
@@ -87,18 +98,37 @@ namespace SistemaDeTarefas.Controller
 
             // assina o token como valido usando a senha mestra
             var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-            
+
             // Faz as config do token
+            /*
             var token = new JwtSecurityToken
                 (
                 claims: claims,
-                expires: DateTime.Now.AddSeconds(1800), //meia hora de token valido
+                expires: DateTime.Now.AddMinutes(30), //meia hora de token valido
                 // passa a credencial assinada
-                signingCredentials : cred
+                signingCredentials: new SigningCredentials (key, SecurityAlgorithms.HmacSha512Signature)
                 );
+            */
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+           {
+                new Claim(JwtRegisteredClaimNames.Name, user.Username),
+                new Claim(JwtRegisteredClaimNames.Jti,
+                Guid.NewGuid().ToString())
+             }),
+                Expires = DateTime.UtcNow.AddMinutes(5),
+                SigningCredentials = new SigningCredentials
+           (key, SecurityAlgorithms.HmacSha512Signature)
+            };
+
             // cria a string do token
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-            return jwt;
+            var jwt = new JwtSecurityTokenHandler();
+            var token = jwt.CreateToken(tokenDescriptor);
+            var jwtToken = jwt.WriteToken(token);
+            var stringToken = jwt.WriteToken(token);
+            return Ok(stringToken);
         }
 
     }

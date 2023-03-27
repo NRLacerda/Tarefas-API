@@ -24,16 +24,17 @@ namespace SistemaDeTarefas.Controller
         [Authorize]
         public async Task<ActionResult<List<User>>> GetAllUsers() 
         {
-            List<User> users = await _userRepository.GetAllUsers();
-            return Ok(users);
+           // List<User> users = await _userRepository.GetAllUsers();
+
+            return Ok(/*users*/);
         }
-        
+        /*
         [HttpPost]
         [Authorize]
         public async Task<ActionResult<User>> InsertUser([FromBody] User usermodel)
         {
             User usuario = await _userRepository.AddUser(usermodel);
             return Ok(usuario);
-        }
+        }*/
     }
 }
