@@ -11,4 +11,4 @@ Update-database -Context TaskManagerDBContext<br>
 
 2- Estes comandos irão instanciar e criar as tabelas do banco de dados.
 
-3- Após isso é só executar a API.
+3- Após isso execute a API, para acessar os endpoints é necessário se autenticar com um JWT
