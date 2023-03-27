@@ -4,13 +4,11 @@ using SistemaDeTarefas.Models;
 
 namespace SistemaDeTarefas.Data.Map
 {
-    public class UserMap : IEntityTypeConfiguration<UserModel>
+    public class UserMap : IEntityTypeConfiguration<User>
     {
-        public void Configure(EntityTypeBuilder<UserModel> builder)
+        public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasKey(x => x.id);
-            builder.Property(x=>x.Name).IsRequired().HasMaxLength(255);
-            builder.Property(x => x.Email).IsRequired().HasMaxLength(255);
+            builder.Property(x=>x.Username).IsRequired().HasMaxLength(255);
         }
     }
 }

@@ -1,12 +1,10 @@
 ﻿namespace SistemaDeTarefas.Models
 {
-    public class UserModel
+    public class User
     {
-        public int id { get; set; }
-        public string? Name { get; set; }
-        public string? Email { get; set; }
-        public string? Password { get; set; }
-        public string? EmailConfirmed { get; set; }
+        public string Username { get; set; } = string.Empty;
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
 
     }
 }
