@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using SistemaDeTarefas.Models;
+using System.Security.Claims;
 using System.Security.Cryptography;
 
 namespace SistemaDeTarefas.Controller
@@ -37,7 +39,8 @@ namespace SistemaDeTarefas.Controller
             }
             else
             {
-                return Ok("TOKEN THERE");
+                //string token = CreateToken(user);
+                return Ok();
             }
 
         }
@@ -64,6 +67,15 @@ namespace SistemaDeTarefas.Controller
                 return computedHash.SequenceEqual(passwordHash);
             }
         }
+
+        /*private string CreateToken(User user)
+        {
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.Username)
+            };
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes());
+        }*/
 
     }
 }
