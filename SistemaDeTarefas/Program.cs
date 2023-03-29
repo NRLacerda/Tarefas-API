@@ -24,6 +24,12 @@ namespace SistemaDeTarefas
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            });
+
             string domain = $"https://{builder.Configuration["Auth0:Domain"]}/";
             builder.Services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

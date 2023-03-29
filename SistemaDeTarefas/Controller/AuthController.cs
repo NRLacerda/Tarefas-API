@@ -5,6 +5,7 @@ using SistemaDeTarefas.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace SistemaDeTarefas.Controller
 {
@@ -77,28 +78,20 @@ namespace SistemaDeTarefas.Controller
 
         private string CreateToken(User user)
         {
-            // claims é uma lista de dados do usuario q vai junto do JWT
-            List<Claim> claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.Username)
-            };
-            // puxa a senha mestra do appsettings
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("fedaf7d8863b48e197b9287d492b708e");
 
-            // assina o token como valido usando a senha mestra
-            var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-            
-            // Faz as config do token
-            var token = new JwtSecurityToken
-                (
-                claims: claims,
-                expires: DateTime.Now.AddSeconds(1800), //meia hora de token valido
-                // passa a credencial assinada
-                signingCredentials : cred
-                );
-            // cria a string do token
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-            return jwt;
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, user.Username.ToString()),
+                }),
+                Expires = DateTime.UtcNow.AddHours(2),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
 
     }
