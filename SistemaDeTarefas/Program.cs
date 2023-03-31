@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using SistemaDeTarefas.Data;
 using SistemaDeTarefas.Repositories;
 using SistemaDeTarefas.Repositories.Interfaces;
-using System.Diagnostics.Tracing;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace SistemaDeTarefas

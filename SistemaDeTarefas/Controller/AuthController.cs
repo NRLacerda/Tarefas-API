@@ -5,6 +5,9 @@ using SistemaDeTarefas.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SistemaDeTarefas.Controller
 {
@@ -21,6 +24,13 @@ namespace SistemaDeTarefas.Controller
             _configuration = configuration;
         }
 
+        [HttpGet("Teste")]
+        [Authorize]
+        public async Task<ActionResult<string>> Teste()
+        {
+            string Teste = "Funcionou!";
+            return Teste;
+        }
         [HttpPost("Register")]
         // recebe UserDto um modelo que contem Username e Password para registralos
         public async Task<ActionResult<User>> Register (UserDto request)
@@ -77,29 +87,31 @@ namespace SistemaDeTarefas.Controller
 
         private string CreateToken(User user)
         {
-            // claims é uma lista de dados do usuario q vai junto do JWT
-            List<Claim> claims = new List<Claim>
+            var claims = new[]
             {
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(JwtRegisteredClaimNames.Name, user.Username),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
-            // puxa a senha mestra do appsettings
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
 
-            // assina o token como valido usando a senha mestra
-            var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-            
-            // Faz as config do token
-            var token = new JwtSecurityToken
-                (
-                claims: claims,
-                expires: DateTime.Now.AddSeconds(1800), //meia hora de token valido
-                // passa a credencial assinada
-                signingCredentials : cred
-                );
-            // cria a string do token
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-            return jwt;
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            // tempo de expiração do token: 1 hora
+            var expiration = DateTime.UtcNow.AddHours(1);
+
+            JwtSecurityToken token = new JwtSecurityToken(
+               issuer: null,
+               audience: null,
+               claims: claims,
+               expires: expiration,
+               signingCredentials: creds);
+
+            UserToken usuario = new UserToken()
+            {
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                Expiration = expiration
+            };
+            return usuario.Token.ToString();
         }
-
     }
 }
