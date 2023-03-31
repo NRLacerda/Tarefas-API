@@ -22,10 +22,10 @@ namespace SistemaDeTarefas.Controller
 
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<List<User>>> GetAllUsers() 
+        public async Task<ActionResult<String>> GetAllUsers() 
         {
-            List<User> users = await _userRepository.GetAllUsers();
-            return Ok(users);
+            string Teste = "Funcionou a rota interna!";
+            return Ok(Teste);
         }
         
         [HttpPost]

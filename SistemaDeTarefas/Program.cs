@@ -17,15 +17,14 @@ namespace SistemaDeTarefas
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
-
-
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
 
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddCors();
+            builder.Services.AddControllers();
 
             builder.Services.AddEntityFrameworkSqlServer()
                 .AddDbContext<TaskManagerDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Database")));
@@ -51,8 +50,6 @@ namespace SistemaDeTarefas
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            app.UseHttpsRedirection();
-
             app.UseRouting();
 
             app.UseCors(x => x
@@ -61,7 +58,6 @@ namespace SistemaDeTarefas
                 .AllowAnyHeader());
 
             app.UseHttpsRedirection();
-            app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
 
